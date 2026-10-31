@@ -1,0 +1,120 @@
+=== 1. denominator for the clinical overlap ===
+ClinVar P/LP positions, autosomes                : 339610
+...that coincide with a benchmark record at all  : 1704
+...where the two benchmarks disagree             : 4
+disagreement rate among those        : 0.23% (4 of 1704)
+
+Report it as that fraction. Not as a bare 4.
+
+=== 2. variant class of the disagreements ===
+--- v4.2.1-only
+       2867 INS
+       2345 DEL
+        322 SNV
+    indel length distribution (abs, top 10):
+         2435 1
+         1255 2
+          569 3
+          444 4
+          156 5
+          122 6
+           80 7
+           53 8
+           19 10
+           14 9
+--- v5.0q-only
+       4910 SNV
+       1428 INS
+       1273 DEL
+    indel length distribution (abs, top 10):
+          689 2
+          523 4
+          294 3
+          280 1
+          266 6
+          184 8
+          166 5
+           69 7
+           58 9
+           33 10
+
+=== 3. FILTER audit ===
+--- inside the shared benchmark region
+    3813687 .
+--- whole v5.0q VCF, genome-wide
+    5201459 .
+     214689 HET1;HET2
+     184157 HET1
+     161843 HET2
+      61105 GAP1
+      49221 HET1;GAP2
+      33677 GAP2
+      33158 GAP1;HET2
+--- flagged records, inside the v5.0q benchmark BED only
+    4404375 .
+
+=== 4. PMS2 locus check ===
+PMS2 span covered by clinically annotated positions:
+    35715 bp across 1 intervals
+overlap with the v5.0q benchmark region:
+    0 bp
+    -> the whole locus is outside the new benchmark, not just those variants
+
+=== 5. L3 haplotype-aware ===
+using java: /work/10906/geomeg/vista/miniconda3/envs/py_env/bin/java (21)
+using jar : /work/10906/geomeg/vista/miniconda3/envs/py_env/share/rtg-tools-3.13-0/RTG.jar
+-- building SDF (a few minutes) --
+Formatting FASTA data
+Processing "GCA_000001405.15_GRCh38_no_alt_analysis_set.fasta.gz"
+
+Detected: 'Human GRCh38 with UCSC naming', installing reference.txt
+
+
+Input Data
+Files              : GCA_000001405.15_GRCh38_no_alt_analysis_set.fasta.gz
+Format             : FASTA
+Type               : DNA
+Number of sequences: 195
+Total residues     : 3099922541
+Minimum length     : 970
+Mean length        : 15897038
+Maximum length     : 248956422
+
+Output Data
+SDF-ID             : 00fc3788-07ca-46e0-8a71-c6d8bb47b2a4
+Number of sequences: 195
+Total residues     : 3099922541
+Minimum length     : 970
+Mean length        : 15897038
+Maximum length     : 248956422
+VCF header does not contain a FORMAT field named GQ
+Evaluation too complex (50002 unresolved paths, 232204 iterations) at reference region chr6:18111262-18111288. Variants in this region will not be included in results.
+There were 3848748 variants not thresholded in ROC data files due to missing or invalid GQ (FORMAT) values.
+Could not select maximized F-measure threshold from ROC data, only un-thresholded statistics will be shown. Consider selecting a different scoring attribute with --vcf-score-field
+Threshold  True-pos-baseline  True-pos-call  False-pos  False-neg  Precision  Sensitivity  F-measure
+----------------------------------------------------------------------------------------------------
+     None            3846764        3847596       1152        145     0.9997       1.0000     0.9998
+
+
+v4.2.1 only  : 145
+v5.0q  only  : 1152
+concordant   : 3847596
+disagreement rate: 0.034%
+
+L1 raw            : 13470
+L2 normalised     : 13145
+L3 haplotype-aware: 1297
+removed L1 to L3  : 90.4%
+
+=== 6. surviving disagreements ===
+distinct surviving positions: 1209
+
+stratum       surviving   concordant enrichment
+segdups           83.6%         2.4%      35.4x
+hard              86.6%         6.1%      14.1x
+tr                 8.2%         4.9%       1.7x
+
+ClinVar P/LP positions among the survivors:
+0
+
+Done. Save the whole log.
